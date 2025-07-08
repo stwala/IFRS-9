@@ -73,4 +73,4 @@ Visit: http://127.0.0.1:8000/
 ### 🔹 Prediction Results
 ![Prediction Results](screenshots/home2.png)
 
-        Visit: http://127.0.0.1:8000/
+        
