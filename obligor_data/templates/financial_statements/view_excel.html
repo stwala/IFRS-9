@@ -1,0 +1,29 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Page Title Here{% endblock %}
+
+{% block content %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <!-- 🖼 Logo at the top -->
+  <div class="text-center mb-4">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" style="max-height: 120px;">
+  </div>
+
+  <h2>{{ file_name }}</h2>
+
+  <div class="mb-3">
+    <a href="{{ download_url }}" class="btn btn-success" download>⬇️ Download Excel File</a>
+  </div>
+
+  <div class="table-responsive">
+    {{ table_html|safe }}
+  </div>
+
+</div>
+{% endblock %}
+{% endblock %}

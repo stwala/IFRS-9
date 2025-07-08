@@ -1,0 +1,381 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}IFRS9 Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">
+      <i class="fas fa-chart-line text-primary mr-2"></i>IFRS9 Dashboard Overview
+    </h1>
+    <div class="d-none d-sm-inline-block">
+      <button class="btn btn-primary">
+        <i class="fas fa-download mr-1"></i> Export Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Data Quality Cards -->
+  <div class="row">
+    <!-- Data Quality Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Overall Data Quality
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">98%</div>
+            </div>
+            <div class="col-auto">
+              <div class="chart-pie-small">
+                <canvas id="dataQualityChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accuracy Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                Accuracy & Integrity
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">83%</div>
+            </div>
+            <div class="col-auto">
+              <div class="chart-pie-small">
+                <canvas id="accuracyChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Completeness Card -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                Completeness
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">100%</div>
+            </div>
+            <div class="col-auto">
+              <div class="chart-pie-small">
+                <canvas id="completenessChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECL Movement Waterfall Chart -->
+  <div class="row">
+    <div class="col-lg-12 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-water fa-fw mr-1"></i> ECL Movement Waterfall Chart
+          </h6>
+        </div>
+        <div class="card-body text-center">
+          <img src="/media/ecl_calculations/ecl_waterfall.png" 
+               alt="ECL Movement Waterfall Chart" 
+               class="img-fluid" style="max-width: 900px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ECL Stage Performance -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">
+        <i class="fas fa-layer-group mr-1"></i> ECL Stage Performance
+      </h6>
+      <div class="dropdown no-arrow">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+            aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="#"><i class="fas fa-expand mr-2"></i>Fullscreen</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chart-bar">
+        <canvas id="eclStageChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- IFRS9 Insights -->
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-chart-bar mr-1"></i> IFRS9 Data Insights
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="chart-bar">
+            <canvas id="ifrs9InsightsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-chart-line mr-1"></i> IFRS9 Data Trends
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="chart-area">
+            <canvas id="ifrs9DashboardChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Management Report Button -->
+  <div class="text-center mt-4 mb-5">
+    <a href="{% url 'loan_analytics' %}" class="btn btn-primary btn-lg">
+      <i class="fas fa-file-alt mr-2"></i> View Full Management Report
+    </a>
+  </div>
+</div>
+
+<!-- Chart.js Scripts -->
+<script>
+// Data Quality Chart
+new Chart(document.getElementById("dataQualityChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["Quality", "Issues"],
+    datasets: [{
+      data: [98, 2], 
+      backgroundColor: ["#4e73df", "#e74a3b"],
+      hoverBackgroundColor: ["#2e59d9", "#be2617"],
+      hoverBorderColor: "rgba(234, 236, 244, 1)"
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }
+});
+
+// Accuracy Chart
+new Chart(document.getElementById("accuracyChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["Accurate", "Errors"],
+    datasets: [{
+      data: [83, 17], 
+      backgroundColor: ["#1cc88a", "#f6c23e"],
+      hoverBackgroundColor: ["#17a673", "#dda20a"],
+      hoverBorderColor: "rgba(234, 236, 244, 1)"
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }
+});
+
+// Completeness Chart
+new Chart(document.getElementById("completenessChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["Complete", "Missing"],
+    datasets: [{
+      data: [100, 0], 
+      backgroundColor: ["#36b9cc", "#858796"],
+      hoverBackgroundColor: ["#2c9faf", "#6c757d"],
+      hoverBorderColor: "rgba(234, 236, 244, 1)"
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }
+});
+
+// ECL Stage Chart
+new Chart(document.getElementById("eclStageChart"), {
+  type: "bar",
+  data: {
+    labels: ["Stage 1", "Stage 2", "Stage 3"],
+    datasets: [
+      { 
+        label: "Target (%)", 
+        data: [90, 70, 40], 
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9"
+      },
+      { 
+        label: "Current (%)", 
+        data: [88, 65, 35], 
+        backgroundColor: "#1cc88a",
+        hoverBackgroundColor: "#17a673"
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: { 
+      y: { 
+        beginAtZero: true, 
+        max: 100,
+        grid: {
+          drawBorder: false
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        }
+      }
+    }
+  }
+});
+
+// IFRS9 Insights Chart
+new Chart(document.getElementById("ifrs9InsightsChart"), {
+  type: "bar",
+  data: {
+    labels: ["Q1", "Q2", "Q3", "Q4"],
+    datasets: [
+      { 
+        label: "PD", 
+        data: [2.5, 3.1, 3.8, 4.2], 
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9"
+      },
+      { 
+        label: "LGD", 
+        data: [40, 45, 50, 55], 
+        backgroundColor: "#f6c23e",
+        hoverBackgroundColor: "#dda20a"
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: { 
+      y: { 
+        beginAtZero: true,
+        grid: {
+          drawBorder: false
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        }
+      }
+    }
+  }
+});
+
+// IFRS9 Trends Chart
+new Chart(document.getElementById("ifrs9DashboardChart"), {
+  type: "line",
+  data: {
+    labels: ["January", "February", "March", "April", "May"],
+    datasets: [{
+      label: "Portfolio Trends",
+      data: [12, 19, 3, 5, 2],
+      borderColor: "#4e73df",
+      backgroundColor: "rgba(78, 115, 223, 0.05)",
+      pointBackgroundColor: "#4e73df",
+      pointBorderColor: "#fff",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "#2e59d9",
+      pointHitRadius: 10,
+      pointBorderWidth: 2,
+      fill: true
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: { 
+      y: { 
+        beginAtZero: true,
+        grid: {
+          drawBorder: false
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        }
+      }
+    }
+  }
+});
+</script>
+
+<style>
+  .chart-pie-small {
+    position: relative;
+    height: 60px;
+    width: 60px;
+  }
+  
+  .chart-bar, .chart-area {
+    position: relative;
+    height: 300px;
+  }
+  
+  .card {
+    border-radius: 0.5rem;
+  }
+  
+  .card-header {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+  }
+</style>
+{% endblock %}

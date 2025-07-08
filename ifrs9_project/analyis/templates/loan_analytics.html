@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Monochrome Theme */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #d1d1d1;
+        }
+        .chart-container {
+            width: 45%;
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            background: #1e1e1e;
+            border-radius: 10px;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Management Report</h2>
+
+    <div class="chart-container">
+        <h3>Loan Status Distribution</h3>
+        <canvas id="loanStatusChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Loan Stages Breakdown</h3>
+        <canvas id="loanStageChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Loan Amount vs Income</h3>
+        <canvas id="loanAmountVsIncomeChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Income Distribution</h3>
+        <canvas id="incomeDistributionChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Loan Amounts by Age</h3>
+        <canvas id="loanAmountByAgeChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Default Rate vs Credit History Length</h3>
+        <canvas id="defaultRateChart"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var data = {{ data|safe }};  // Load data from Django context
+
+            console.log("Data received:", data); // Debugging
+
+            // 🎯 Loan Status Pie Chart
+            new Chart(document.getElementById("loanStatusChart").getContext("2d"), {
+                type: "pie",
+                data: {
+                    labels: ["Approved", "Rejected"],
+                    datasets: [{
+                        data: data.loan_statuses,
+                        backgroundColor: ["#bbbbbb", "#444444"]
+                    }]
+                }
+            });
+
+            // 🎯 Loan Stage Bar Chart
+            new Chart(document.getElementById("loanStageChart").getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: ["Stage 1", "Stage 2", "Stage 3"],
+                    datasets: [{
+                        label: "Loans",
+                        data: data.loan_stages,
+                        backgroundColor: ["#999999", "#666666", "#333333"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // 🎯 Loan Amount vs Income Scatter Plot
+            new Chart(document.getElementById("loanAmountVsIncomeChart").getContext("2d"), {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        label: "Loan Amount vs Income",
+                        data: data.incomes.map((income, i) => ({ x: income, y: data.loan_amounts[i] })),
+                        backgroundColor: "#bbbbbb"
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { type: 'linear', position: 'bottom' },
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // 🎯 Income Distribution Histogram
+            new Chart(document.getElementById("incomeDistributionChart").getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: data.ages.map(age => `Age ${age}`),
+                    datasets: [{
+                        label: "Income Level",
+                        data: data.incomes,
+                        backgroundColor: "#555555"
+                    }]
+                }
+            });
+
+            // 🎯 Loan Amount by Age Line Chart
+            new Chart(document.getElementById("loanAmountByAgeChart").getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: data.ages.map(age => `Age ${age}`),
+                    datasets: [{
+                        label: "Loan Amount",
+                        data: data.loan_amounts,
+                        borderColor: "#bbbbbb",
+                        fill: false
+                    }]
+                }
+            });
+
+            // 🎯 Default Rate vs Credit History Length
+            new Chart(document.getElementById("defaultRateChart").getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: ["Short", "Medium", "Long"],
+                    datasets: [{
+                        label: "Default Rate",
+                        data: [0.2, 0.15, 0.1],
+                        borderColor: "#888888",
+                        fill: false
+                    }]
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>

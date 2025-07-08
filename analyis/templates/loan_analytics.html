@@ -1,0 +1,606 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Loan Analytics Dashboard | IFRS9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">
+      <i class="fas fa-chart-pie text-primary mr-2"></i>Management Report
+    </h1>
+    <div class="d-none d-sm-inline-block">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" 
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-download mr-1"></i> Export
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf mr-2"></i>PDF Report</a></li>
+        <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel mr-2"></i>Excel Data</a></li>
+        <li><a class="dropdown-item" href="#"><i class="fas fa-image mr-2"></i>Charts Only</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Key Metrics Cards -->
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Total Loans
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ data.total_loans|floatformat:0 }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                Performing Loans
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ data.performing_loans|floatformat:0 }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                Watchlist Loans
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ data.watchlist_loans|floatformat:0 }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-danger shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                Default Rate
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ data.default_rate|floatformat:1 }}%
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row">
+    <!-- Loan Status Distribution -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-tasks mr-1"></i> Loan Status Distribution
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-pie pt-4 pb-2">
+            <canvas id="loanStatusChart"></canvas>
+          </div>
+          <div class="mt-4 text-center small">
+            <span class="mr-2">
+              <i class="fas fa-circle text-gray-500"></i> Approved
+            </span>
+            <span>
+              <i class="fas fa-circle text-gray-300"></i> Rejected
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan Stages Breakdown -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-layer-group mr-1"></i> Loan Stages Breakdown
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-bar pt-4 pb-2">
+            <canvas id="loanStageChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan Amount vs Income -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-balance-scale mr-1"></i> Loan Amount vs Income
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-area pt-4 pb-2">
+            <canvas id="loanAmountVsIncomeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Income Distribution -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-money-bill-wave mr-1"></i> Income Distribution
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-bar pt-4 pb-2">
+            <canvas id="incomeDistributionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan Amounts by Age -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-user-clock mr-1"></i> Loan Amounts by Age
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-area pt-4 pb-2">
+            <canvas id="loanAmountByAgeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Default Rate vs Credit History Length -->
+    <div class="col-xl-6 mb-4">
+      <div class="card shadow">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-history mr-1"></i> Default Rate vs Credit History Length
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+                aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-area pt-4 pb-2">
+            <canvas id="defaultRateChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var data = {{ data|safe }};  // Load data from Django context
+
+  // 🎯 Loan Status Pie Chart
+  new Chart(document.getElementById("loanStatusChart").getContext("2d"), {
+    type: "pie",
+    data: {
+      labels: ["Approved", "Rejected"],
+      datasets: [{
+        data: data.loan_statuses,
+        backgroundColor: ["#4e73df", "#e74a3b"],
+        hoverBackgroundColor: ["#2e59d9", "#be2617"],
+        hoverBorderColor: "rgba(234, 236, 244, 1)",
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    }
+  });
+
+  // 🎯 Loan Stage Bar Chart
+  new Chart(document.getElementById("loanStageChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: ["Stage 1", "Stage 2", "Stage 3"],
+      datasets: [{
+        label: "Loans",
+        data: data.loan_stages,
+        backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
+        hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
+        hoverBorderColor: "rgba(234, 236, 244, 1)",
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          beginAtZero: true,
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        },
+        x: {
+          grid: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // 🎯 Loan Amount vs Income Scatter Plot
+  new Chart(document.getElementById("loanAmountVsIncomeChart").getContext("2d"), {
+    type: "scatter",
+    data: {
+      datasets: [{
+        label: "Loan Amount vs Income",
+        data: data.incomes.map((income, i) => ({ x: income, y: data.loan_amounts[i] })),
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        x: { 
+          type: 'linear', 
+          position: 'bottom',
+          title: {
+            display: true,
+            text: 'Income (BWP)',
+            color: "#858796"
+          },
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        },
+        y: { 
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Loan Amount (BWP)',
+            color: "#858796"
+          },
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // 🎯 Income Distribution Histogram
+  new Chart(document.getElementById("incomeDistributionChart").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: data.ages.map(age => `Age ${age}`),
+      datasets: [{
+        label: "Income Level",
+        data: data.incomes,
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Income (BWP)',
+            color: "#858796"
+          },
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Age Group',
+            color: "#858796"
+          },
+          grid: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        }
+      },
+      plugins:
+      {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // 🎯 Loan Amounts by Age Line Chart
+  new Chart(document.getElementById("loanAmountByAgeChart").getContext("2d"), {
+    type: "line",
+    data: {
+      labels: data.ages,
+      datasets: [{
+        label: "Loan Amount",
+        data: data.loan_amounts_by_age,
+        borderColor: "#4e73df",
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointBackgroundColor: "rgba(255, 255, 255, 1)",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(255, 255, 255, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Loan Amount (BWP)',
+            color: "#858796"
+          },
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Age',
+            color: "#858796"
+          },
+          grid: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // 🎯 Default Rate vs Credit History Length Line Chart
+  new Chart(document.getElementById("defaultRateChart").getContext("2d"), {
+    type: "line",
+    data: {
+      labels: data.credit_history_lengths,
+      datasets: [{
+        label: "Default Rate",
+        data: data.default_rates,
+        borderColor: "#e74a3b",
+        backgroundColor: "rgba(231, 74, 59, 0.05)",
+        pointBorderColor: "rgba(231, 74, 59, 1)",
+        pointBackgroundColor: "rgba(255, 255, 255, 1)",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(231, 74, 59, 1)",
+        pointHoverBorderColor: "rgba(255, 255, 255, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        y: { 
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Default Rate (%)',
+            color: "#858796"
+          },
+          grid: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796",
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Credit History Length (Years)',
+            color: "#858796"
+          },
+          grid: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            color: "#858796"
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let label = context.dataset.label || '';
+
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed.y !== null) {
+                label += context.parsed.y + '%';
+              }
+              return label;
+            }
+          }
+        }
+      }
+    }
+  });
+});
+</script>
+{% endblock %}

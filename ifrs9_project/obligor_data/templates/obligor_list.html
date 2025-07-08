@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Obligor Level Data</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Age</th>
+            <th>Income (BWP)</th>
+            <th>Home Ownership</th>
+            <th>Employment (Years)</th>
+            <th>Loan Intent</th>
+            <th>Loan Grade</th>
+            <th>Loan Amount</th>
+            <th>Interest Rate</th>
+            <th>Loan Status</th>
+            <th>Defaulth History</th>
+            <th>Credit History (Years)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obligor in obligors %}
+        <tr>
+            <td>{{ obligor.person_age }}</td>
+            <td>P{{ obligor.person_income }}</td>
+            <td>{{ obligor.get_person_home_ownership_display }}</td>
+            <td>{{ obligor.person_emp_length }}</td>
+            <td>{{ obligor.get_loan_intent_display }}</td>
+            <td>{{ obligor.loan_grade }}</td>
+            <td>P{{ obligor.loan_amnt }}</td>
+            <td>{{ obligor.loan_int_rate }}%</td>
+            <td>{{ obligor.get_loan_status_display }}</td>
+            <td>{{ obligor.cb_person_default_on_file}}</td>
+            <td>{{ obligor.cb_person_cred_hist_length }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

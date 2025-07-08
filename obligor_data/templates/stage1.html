@@ -1,0 +1,35 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Page Title Here{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 1 – Performing Assets</title>
+    <!-- <style>
+        body { font-family: Arial, sans-serif; background-color: #eefaf1; padding: 40px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #28a745; }
+        ul { padding-left: 20px; }
+    </style> -->
+</head>
+<body>
+    <div class="container">
+        <h1>🟢 Stage 1 – Performing Assets</h1>
+        <p>Stage 1 applies to exposures that have not experienced a significant increase in credit risk (SICR) since initial recognition.</p>
+
+        <h3>Factor Model Objective:</h3>
+        <p>Estimate a 12-month ECL using a forward-looking view based on current credit conditions.</p>
+
+        <h3>Key Features:</h3>
+        <ul>
+            <li>Uses borrower-level data and macroeconomic indicators (e.g., GDP growth, inflation).</li>
+            <li>Probability of Default (PD) calibrated for a 12-month horizon.</li>
+            <li>Incorporates stability and resilience metrics of the portfolio.</li>
+            <li>Supports low-latency recalibration for real-time monitoring.</li>
+        </ul>
+    </div>
+</body>
+</html>
+{% endblock %}

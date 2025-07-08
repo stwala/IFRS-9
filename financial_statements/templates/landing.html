@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>📁 Financial Statements</h2>
+
+<h3>Statement of Incomes</h3>
+<ul>
+  {% for file in incomes %}
+    <li><a href="{{ file.file.url }}" download>{{ file.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<h3>Statement of Financial Positions</h3>
+<ul>
+  {% for file in positions %}
+    <li><a href="{{ file.file.url }}" download>{{ file.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<h3>Statement of Changes in Equity</h3>
+<ul>
+  {% for file in equitys %}
+    <li><a href="{{ file.file.url }}" download>{{ file.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<h3>Statement of Cashflows</h3>
+<ul>
+  {% for file in cashflows %}
+    <li><a href="{{ file.file.url }}" download>{{ file.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Page Title Here{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 2 – Underperforming Assets</title>
+    <!-- <style>
+        body { font-family: Arial, sans-serif; background-color: #fff8e1; padding: 40px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #ffc107; }
+        ul { padding-left: 20px; }
+    </style> -->
+</head>
+<body>
+    <div class="container">
+        <h1>🟡 Stage 2 – Underperforming Assets</h1>
+        <p>Stage 2 covers exposures that have shown a significant increase in credit risk, though they are not yet credit-impaired.</p>
+
+        <h3>Factor Model Objective:</h3>
+        <p>Estimate Lifetime ECL with an increased weight on downside risk scenarios and credit deterioration indicators.</p>
+
+        <h3>Key Features:</h3>
+        <ul>
+            <li>Introduces behavioral and temporal credit factors (e.g., payment delinquencies, risk score changes).</li>
+            <li>Forward-looking lifetime PD and LGD models, conditional on future macroeconomic forecasts.</li>
+            <li>Scenario-based analysis across baseline, optimistic, and adverse cases.</li>
+            <li>Automatic Stage Transition tracking based on factor thresholds.</li>
+        </ul
+
+        {% endblock %}

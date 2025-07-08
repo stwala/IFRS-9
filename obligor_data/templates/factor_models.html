@@ -1,0 +1,52 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Factor Models | IFRS9{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow border-0" style="border-left: 0.25rem solid #4e73df;">
+                    <div class="card-body p-5">
+                        <h1 class="fw-bold mb-4 text-primary">
+                            <i class="fas fa-chart-bar me-2"></i>Factor Models Component
+                        </h1>
+                        <p class="lead mb-4 text-muted">
+                            Our software supports dynamic Factor Models tailored to the three key stages of credit risk classification under IFRS 9. These models use macroeconomic variables, borrower characteristics, and exposure-level data to estimate Expected Credit Losses (ECL) at different stages of deterioration.
+                        </p>
+                        <h3 class="fw-bold text-primary mt-5 mb-3">
+                            <i class="fas fa-cogs me-2"></i>How Factor Models Work
+                        </h3>
+                        <ul class="mb-4">
+                            <li>Integrate macroeconomic variables for scenario-based ECL estimation.</li>
+                            <li>Adapt to borrower-specific characteristics and exposure-level data.</li>
+                            <li>Support all three IFRS 9 stages: performing, underperforming, and non-performing.</li>
+                        </ul>
+                        <h3 class="fw-bold text-primary mt-5 mb-3">
+                            <i class="fas fa-star me-2"></i>Key Benefits
+                        </h3>
+                        <ul>
+                            <li>Flexible and modular model design.</li>
+                            <li>Transparent methodology for regulatory compliance.</li>
+                            <li>Scalable for portfolios of any size.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        border-radius: 12px;
+    }
+    ul {
+        padding-left: 1.5rem;
+    }
+    li {
+        margin-bottom: 10px;
+        color: #444;
+    }
+</style>
+{% endblock %}

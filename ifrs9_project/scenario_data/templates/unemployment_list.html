@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unemployment Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0; /* Light gray background */
+            margin: 20px;
+            text-align: center;
+            color: #333; /* Dark gray text */
+        }
+        h2 {
+            color: #333; /* Dark gray for header */
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #f8f8f8; /* Very light gray for table background */
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc; /* Light gray border */
+        }
+        th {
+            background-color: #4f4f4f; /* Dark gray header */
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Lighter gray for alternating rows */
+        }
+    </style>
+</head>
+<body>
+    <h2>Unemployment Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Unemployment Rate (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unemployment in unemployment_data %}
+            <tr>
+                <td>{{ unemployment.year }}</td>
+                <td>{{ unemployment.unemployment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

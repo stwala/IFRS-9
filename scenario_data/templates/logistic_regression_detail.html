@@ -1,0 +1,216 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Logistic Regression | IFRS9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">
+      <i class="fas fa-project-diagram text-primary mr-2"></i>Logistic Regression Model
+    </h1>
+    <div class="d-none d-sm-inline-block">
+      <button class="btn btn-primary">
+        <i class="fas fa-download mr-1"></i> Export Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Model Description Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-info-circle mr-1"></i> Model Overview
+          </h6>
+        </div>
+        <div class="card-body">
+          <p class="mb-4">
+            We implement Logistic Regression as a reliable and interpretable model to estimate the probability of binary outcomes — such as loan default, claims occurrence, or fraud detection. This statistical model provides both predictive power and business interpretability.
+          </p>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <h5 class="font-weight-bold text-gray-800 mb-3">
+                <i class="fas fa-bullseye mr-2 text-primary"></i>Key Applications
+              </h5>
+              <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-check-circle text-success mr-2"></i>
+                  Identify key drivers of risk
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-check-circle text-success mr-2"></i>
+                  Score customers based on risk level
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-check-circle text-success mr-2"></i>
+                  Segment portfolios by likelihood
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h5 class="font-weight-bold text-gray-800 mb-3">
+                <i class="fas fa-star mr-2 text-primary"></i>Model Features
+              </h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-percentage text-info mr-2"></i>
+                  Probability-based outputs (0 to 1)
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-search text-info mr-2"></i>
+                  Easy-to-understand coefficients
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="fas fa-tasks text-info mr-2"></i>
+                  Handles multiple input types
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <!-- Model Performance Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-chart-line mr-1"></i> Model Performance
+          </h6>
+        </div>
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <span class="badge badge-primary p-2 mb-2">Accuracy</span>
+            <h3 class="font-weight-bold">87.5%</h3>
+          </div>
+          <div class="mb-3">
+            <span class="badge badge-success p-2 mb-2">AUC Score</span>
+            <h3 class="font-weight-bold">0.92</h3>
+          </div>
+          <div class="mb-3">
+            <span class="badge badge-info p-2 mb-2">Precision</span>
+            <h3 class="font-weight-bold">85.3%</h3>
+          </div>
+          <div>
+            <span class="badge badge-warning p-2 mb-2">Recall</span>
+            <h3 class="font-weight-bold">89.1%</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Visualization -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">
+        <i class="fas fa-chart-area mr-1"></i> Model Visualization
+      </h6>
+      <div class="dropdown no-arrow">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+            aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="#"><i class="fas fa-expand mr-2"></i>Fullscreen</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i>Download</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body text-center">
+      <img src="{% static 'logistic_regression_images/model.png' %}" alt="ROC Curve" class="img-fluid rounded" style="max-height: 500px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <div class="mt-3 text-muted small">
+        ROC curve showing model performance across different thresholds
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Coefficients -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">
+        <i class="fas fa-list-ol mr-1"></i> Feature Importance
+      </h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th>Feature</th>
+              <th>Coefficient</th>
+              <th>Odds Ratio</th>
+              <th>Importance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Credit Score</td>
+              <td class="text-success">-0.85</td>
+              <td>0.43</td>
+              <td><div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 95%"></div>
+              </div></td>
+            </tr>
+            <tr>
+              <td>Debt-to-Income Ratio</td>
+              <td class="text-danger">1.32</td>
+              <td>3.74</td>
+              <td><div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+              </div></td>
+            </tr>
+            <tr>
+              <td>Loan Amount</td>
+              <td class="text-danger">0.67</td>
+              <td>1.95</td>
+              <td><div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-info" role="progressbar" style="width: 60%"></div>
+              </div></td>
+            </tr>
+            <tr>
+              <td>Employment Length</td>
+              <td class="text-success">-0.42</td>
+              <td>0.66</td>
+              <td><div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 45%"></div>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 0.75rem 1.25rem;
+  }
+  .list-group-item:first-child {
+    border-top: none;
+  }
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  .card {
+    border-radius: 0.5rem;
+  }
+  .card-header {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+  }
+  .progress {
+    border-radius: 10px;
+    background-color: #f8f9fc;
+  }
+</style>
+{% endblock %}

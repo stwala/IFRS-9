@@ -1,0 +1,29 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Page Title Here{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stage 3 – Credit-Impaired Assets</title>
+    <!-- <style>
+        body { font-family: Arial, sans-serif; background-color: #fff0f0; padding: 40px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #dc3545; }
+        ul { padding-left: 20px; }
+    </style> -->
+</head>
+<body>
+    <div class="container">
+        <h1>🔴 Stage 3 – Credit-Impaired Assets</h1>
+        <p>Stage 3 includes exposures considered credit-impaired, such as those in default or with clear evidence of unlikeliness to pay.</p>
+
+        <h3>Factor Model Objective:</h3>
+        <p>Compute Lifetime ECL using a more granular and conservative approach, incorporating loss recognition and recovery expectations.</p>
+
+        <h3>Key Features:</h3>
+        <ul>
+            <li>Incorporates recovery curves, legal proceedings, and collateral valuation factors.</li>
+            <li>Focused on Loss Given Default (LGD) modeling and Exposure at Default (EAD)
+                {% endblock %}

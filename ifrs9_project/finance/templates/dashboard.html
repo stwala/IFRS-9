@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>IFRS 9 Dashboard</h2>
+<p><strong>Total Expected Credit Loss (ECL):</strong> P{{ total_ecl|floatformat:2 }}</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Classification</th>
+            <th>Credit Rating</th>
+            <th>Exposure</th>
+            <th>ECL Stage</th>
+            <th>Calculated ECL</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instrument in instruments %}
+        <tr>
+            <td>{{ instrument.name }}</td>
+            <td>{{ instrument.get_classification_display }}</td>
+            <td>{{ instrument.credit_rating }}</td>
+            <td>P{{ instrument.exposure|floatformat:2 }}</td>
+            <td>Stage {{ instrument.ecl_stage }}</td>
+            <td>P{{ instrument.calculate_ecl|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

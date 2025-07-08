@@ -1,0 +1,247 @@
+<!-- templates/model_results.html -->
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Model Results | IFRS9{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Output</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        .results-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            width: 95%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .page-header {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .section-header {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 2rem 0 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .file-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .file-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+        .file-icon {
+            font-size: 2.5rem;
+            margin-right: 1.25rem;
+            min-width: 50px;
+            text-align: center;
+        }
+        .excel-icon {
+            color: #217346;
+        }
+        .image-icon {
+            color: #dc3545;
+        }
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .btn-download {
+            background-color: #3498db;
+            border-color: #3498db;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            min-width: 100px;
+        }
+        .btn-download:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        .img-container {
+            margin-top: 1rem;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            cursor: pointer;
+        }
+        .img-preview {
+            max-height: 220px;
+            width: auto;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            object-fit: contain;
+            transition: transform 0.2s;
+        }
+        .img-preview:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .alert {
+            border-radius: 8px;
+        }
+        .action-buttons {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+        .file-actions {
+            margin-top: 1rem;
+        }
+        @media (min-width: 1400px) {
+            .image-col {
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-5 px-4">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="results-container">
+                    <h1 class="page-header">Model Run Results</h1>
+
+                    {% if message %}
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>Success!</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+
+                    <!-- Image Outputs Section -->
+                    <h3 class="section-header">
+                        <i class="bi bi-images me-2"></i>Visual Reports
+                    </h3>
+                    <div class="row">
+                        {% for file in outputs %}
+                            {% if file.name|lower|slice:'-4:' == '.png' or file.name|lower|slice:'-4:' == '.jpg' or file.name|lower|slice:'-5:' == '.jpeg' %}
+                                <div class="col-xl-3 col-lg-4 col-md-6 mb-4 image-col">
+                                    <div class="file-card h-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-image image-icon file-icon"></i>
+                                            <div class="file-info">
+                                                <div class="file-name">{{ file.name }}</div>
+                                                <div class="file-meta">{{ file.size|filesizeformat }}</div>
+                                            </div>
+                                        </div>
+                                        <a href="{{ file.url }}" target="_blank" class="img-container">
+                                            <img src="{{ file.url }}" alt="{{ file.name }}" class="img-preview">
+                                        </a>
+                                        <div class="file-actions">
+                                            <a href="{{ file.url }}" download="{{ file.name }}" class="btn btn-download btn-sm w-100">
+                                                <i class="bi bi-download me-1"></i>Download
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    No image outputs available.
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Data File Outputs Section -->
+                    <h3 class="section-header">
+                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>Data Files
+                    </h3>
+                    <div class="row">
+                        {% for file in outputs %}
+                            {% if file.name|lower|slice:'-5:' == '.xlsx' or file.name|lower|slice:'-4:' == '.xls' or file.name|lower|slice:'-4:' == '.csv' %}
+                                <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                                    <div class="file-card">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-excel excel-icon file-icon"></i>
+                                            <div class="file-info">
+                                                <div class="file-name">{{ file.name }}</div>
+                                                <div class="file-meta">{{ file.size|filesizeformat }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="file-actions d-flex justify-content-between mt-3">
+                                            <a href="{{ file.url }}" download="{{ file.name }}" class="btn btn-download btn-sm">
+                                                <i class="bi bi-download me-1"></i>Download
+                                            </a>
+                                            <a href="{{ file.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-eye me-1"></i>View
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    No data files available.
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="action-buttons d-flex justify-content-between">
+                        <a href="{% url 'run_model' %}" class="btn btn-primary px-4">
+                            <i class="bi bi-arrow-repeat me-2"></i>Run Another Model
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-house me-2"></i>Return to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}PAM1000 Overview | IFRS9{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="container-fluid bg-gradient-primary-to-secondary text-white py-5">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h1 class="display-4 fw-bold mb-4">
+          <i class="fas fa-calculator me-2"></i>PAM1000 (IFRS 9 ECL)
+        </h1>
+        <p class="lead mb-4">
+          Our comprehensive Expected Credit Loss (ECL) engine designed for seamless integration and regulatory compliance.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="#features" class="btn btn-light btn-lg px-4">
+            <i class="fas fa-list-ul me-2"></i>Explore Features
+          </a>
+          <a href="#" class="btn btn-outline-light btn-lg px-4">
+            <i class="fas fa-file-download me-2"></i>Download Brochure
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 d-none d-lg-block">
+        <img src="{% static 'images/financial-dashboard.svg' %}" alt="Financial Dashboard" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Key Features -->
+<div class="container-fluid py-5 bg-light" id="features">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary">
+        <i class="fas fa-star me-2"></i>Key Features
+      </h2>
+      <p class="lead text-muted">Automated, compliant, and built for performance</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body p-4 text-center">
+            <div class="icon-circle bg-primary text-white mb-4 mx-auto">
+              <i class="fas fa-random fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-3">Stage Allocation</h4>
+            <p class="text-muted">Automated classification of financial instruments into IFRS 9 stages based on credit risk changes.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body p-4 text-center">
+            <div class="icon-circle bg-success text-white mb-4 mx-auto">
+              <i class="fas fa-calculator fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-3">ECL Calculations</h4>
+            <p class="text-muted">Precise Lifetime and 12-Month ECL calculations with full audit trail capabilities.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body p-4 text-center">
+            <div class="icon-circle bg-info text-white mb-4 mx-auto">
+              <i class="fas fa-file-alt fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-3">Professional Reporting</h4>
+            <p class="text-muted">Generate Waterfall, Vintage, Transition Matrix, and Portfolio summaries in Excel and PDF.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IFRS 9 Background -->
+<div class="container-fluid py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary">
+        <i class="fas fa-history me-2"></i>IFRS 9 – Background
+      </h2>
+      <p class="lead text-muted">The evolution of credit loss accounting standards</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-start border-3 border-danger shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-danger bg-opacity-10 p-2 rounded me-3">
+                <i class="fas fa-exclamation-triangle text-danger"></i>
+              </div>
+              <h5 class="fw-bold mb-0">Post-Crisis Reform</h5>
+            </div>
+            <p class="mb-0">Post 2008 financial crisis, regulators realized history-based accounting standards could be misleading, necessitating a paradigm shift in methodologies.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-start border-3 border-warning shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                <i class="fas fa-exchange-alt text-warning"></i>
+              </div>
+              <h5 class="fw-bold mb-0">IASB Standard</h5>
+            </div>
+            <p class="mb-0">In July 2014, IASB issued IFRS 9 to replace IAS 39, introducing a forward-looking approach to address delayed credit loss recognition.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-start border-3 border-info shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                <i class="fas fa-globe text-info"></i>
+              </div>
+              <h5 class="fw-bold mb-0">Global Implementation</h5>
+            </div>
+            <p class="mb-0">Effective globally in Jan 2018, IFRS 9 posed challenges for firms unfamiliar with predictive analytics or expected loss modeling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ECL Methodology -->
+<div class="container-fluid py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary">
+        <i class="fas fa-sitemap me-2"></i>ECL Estimation Methodology
+      </h2>
+      <p class="lead text-muted">Our comprehensive approach to credit risk measurement</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-success shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-success mb-3">
+              <i class="fas fa-object-group me-2"></i>Portfolio Segmentation
+            </h5>
+            <p class="mb-0">Segmentation & pooling of portfolio based on discriminant analysis and statistical mass.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-danger shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-danger mb-3">
+              <i class="fas fa-chart-line me-2"></i>MEVs Identification
+            </h5>
+            <p class="mb-0">Identify statistically significant macroeconomic variables for default rate modeling.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-info shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-info mb-3">
+              <i class="fas fa-project-diagram me-2"></i>MES Simulations
+            </h5>
+            <p class="mb-0">Macro-economic scenario projections with probabilistic weightings.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-warning shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-warning mb-3">
+              <i class="fas fa-boxes me-2"></i>Bucket-wise EAD Estimation
+            </h5>
+            <p class="mb-0">Expose current balances by days-past-due (DPD) buckets as defined by IFRS 9.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-secondary shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold mb-3">
+              <i class="fas fa-chart-pie me-2"></i>PIT PD Estimation
+            </h5>
+            <p class="mb-0">Point-in-time default rate structure for each segment of portfolio exposure.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-top border-3 border-primary shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-primary mb-3">
+              <i class="fas fa-percentage me-2"></i>LGD Estimation
+            </h5>
+            <p class="mb-0">Point-in-time loss given default (LGD) modeling for portfolio segments.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="container-fluid bg-primary text-white py-5">
+  <div class="container text-center py-4">
+    <h2 class="fw-bold mb-4">Ready to transform your IFRS 9 compliance?</h2>
+    <p class="lead mb-5">Discover how PAM1000 can streamline your ECL calculations and reporting.</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="#" class="btn btn-light btn-lg px-4">
+        <i class="fas fa-play-circle me-2"></i>Watch Demo
+      </a>
+      <a href="#" class="btn btn-outline-light btn-lg px-4">
+        <i class="fas fa-envelope me-2"></i>Contact Sales
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-primary-to-secondary {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+  }
+  
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .border-3 {
+    border-width: 3px !important;
+  }
+  
+  .bg-opacity-10 {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+  }
+</style>
+{% endblock %}

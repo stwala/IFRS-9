@@ -1,0 +1,150 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Obligor Level Data | IFRS9{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">
+      <i class="fas fa-users text-primary mr-2"></i>Obligor Level Data
+    </h1>
+    <div class="d-none d-sm-inline-block">
+      <span class="badge bg-primary p-2">
+        <i class="fas fa-database mr-1"></i>
+        Total Records: {{ obligors.count }}
+      </span>
+    </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">
+        <i class="fas fa-table mr-1"></i> Obligor Details
+      </h6>
+      <div class="dropdown no-arrow">
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow animated--fade-in" 
+            aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="#"><i class="fas fa-file-export mr-2"></i>Export Data</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-filter mr-2"></i>Filter Options</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#"><i class="fas fa-columns mr-2"></i>Column Visibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+          <thead class="thead-light">
+            <tr>
+              <th>Age</th>
+              <th>Income (BWP)</th>
+              <th>Home Ownership</th>
+              <th>Employment (Years)</th>
+              <th>Loan Intent</th>
+              <th>Loan Grade</th>
+              <th>Loan Amount</th>
+              <th>Interest Rate</th>
+              <th>Loan Status</th>
+              <th>Default History</th>
+              <th>Credit History (Years)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obligor in obligors %}
+            <tr>
+              <td>{{ obligor.person_age }}</td>
+              <td class="text-end">P{{ obligor.person_income|floatformat:2 }}</td>
+              <td>
+                <span class="badge 
+                  {% if obligor.person_home_ownership == 'RENT' %}bg-warning text-dark
+                  {% elif obligor.person_home_ownership == 'MORTGAGE' %}bg-success
+                  {% elif obligor.person_home_ownership == 'OWN' %}bg-primary
+                  {% else %}bg-secondary{% endif %}">
+                  {{ obligor.get_person_home_ownership_display }}
+                </span>
+              </td>
+              <td>{{ obligor.person_emp_length }}</td>
+              <td>{{ obligor.get_loan_intent_display }}</td>
+              <td>
+                <span class="badge 
+                  {% if obligor.loan_grade == 'A' %}bg-success
+                  {% elif obligor.loan_grade == 'B' %}bg-info text-dark
+                  {% elif obligor.loan_grade == 'C' %}bg-primary
+                  {% elif obligor.loan_grade == 'D' %}bg-warning text-dark
+                  {% else %}bg-danger{% endif %}">
+                  {{ obligor.loan_grade }}
+                </span>
+              </td>
+              <td class="text-end">P{{ obligor.loan_amnt|floatformat:2 }}</td>
+              <td class="text-end">{{ obligor.loan_int_rate }}%</td>
+              <td>
+                <span class="badge 
+                  {% if obligor.loan_status == 0 %}bg-success
+                  {% else %}bg-danger{% endif %}">
+                  {{ obligor.get_loan_status_display }}
+                </span>
+              </td>
+              <td>
+                <span class="badge 
+                  {% if obligor.cb_person_default_on_file == 'Y' %}bg-danger
+                  {% else %}bg-success{% endif %}">
+                  {{ obligor.cb_person_default_on_file }}
+                </span>
+              </td>
+              <td>{{ obligor.cb_person_cred_hist_length }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">
+      Updated {% now "SHORT_DATETIME_FORMAT" %}
+      <div class="float-end">
+        Showing {{ obligors.count }} records
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .table {
+    font-size: 0.85rem;
+  }
+  
+  .table th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #e3e6f0;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+  }
+  
+  .card {
+    border: none;
+    border-radius: 0.5rem;
+  }
+  
+  .card-header {
+    border-bottom: 1px solid #e3e6f0;
+    background-color: #f8f9fc;
+  }
+  
+  .badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+  }
+  
+  .text-end {
+    text-align: right !important;
+  }
+</style>
+{% endblock %}

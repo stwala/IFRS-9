@@ -1,0 +1,37 @@
+<form method="POST">
+    {% csrf_token %}
+    <label>Person Age:</label>
+    <input type="text" name="person_age" required>
+
+    <label>Person Income:</label>
+    <input type="text" name="person_income" required>
+
+    <label>Person Home Ownership:</label>
+    <input type="text" name="person_home_ownership" required>
+
+    <label>Person Employment Length:</label>
+    <input type="text" name="person_emp_length" required>
+
+    <label>Loan Intent:</label>
+    <input type="text" name="loan_intent" required>
+
+    <label>Loan Grade:</label>
+    <input type="text" name="loan_grade" required>
+
+    <label>Loan Amount:</label>
+    <input type="text" name="loan_amnt" required>
+
+    <label>Loan Interest Rate:</label>
+    <input type="text" name="loan_int_rate" required>
+
+    <label>Loan Percent Income:</label>
+    <input type="text" name="loan_percent_income" required>
+
+    <label>Credit Bureau Default on File:</label>
+    <input type="text" name="cb_person_default_on_file" required>
+
+    <label>Credit Bureau Person Credit History Length:</label>
+    <input type="text" name="cb_person_cred_hist_length" required>
+
+    <button type="submit">Predict ECL</button>
+</form>

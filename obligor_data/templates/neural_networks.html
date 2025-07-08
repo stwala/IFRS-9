@@ -1,0 +1,49 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Neural Networks | IFRS9{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow border-0" style="border-left: 0.25rem solid #4e73df;">
+                    <div class="card-body p-5">
+                        <h1 class="fw-bold mb-4 text-primary">
+                            <i class="fas fa-brain me-2"></i>Neural Networks
+                        </h1>
+                        <p class="lead mb-4 text-muted">
+                            Our Neural Networks module is designed to handle complex, non-linear relationships where traditional models may fall short. With multi-layer architectures, our neural nets can uncover deep patterns in large, high-dimensional datasets — ideal for:
+                        </p>
+                        <ul class="mb-4">
+                            <li>Detecting subtle trends in claims, underwriting, or customer behavior.</li>
+                            <li>Improving predictive accuracy in scenarios with non-linear dependencies.</li>
+                            <li>Enhancing personalization through adaptive learning.</li>
+                        </ul>
+                        <h3 class="fw-bold text-primary mt-5 mb-3">
+                            <i class="fas fa-star me-2"></i>Key Features
+                        </h3>
+                        <ul>
+                            <li>Deep learning capability for high-dimensional input.</li>
+                            <li>Automatic feature interaction modeling.</li>
+                            <li>Scalable architecture adaptable to growing data.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        border-radius: 12px;
+    }
+    ul {
+        padding-left: 1.5rem;
+    }
+    li {
+        margin-bottom: 10px;
+        color: #444;
+    }
+</style>
+{% endblock %}

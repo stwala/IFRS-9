@@ -1,0 +1,294 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Financial Statements | IFRS9{% endblock %}
+
+{% block content %}
+<style>
+    .section-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .income-card {
+        border-left-color: #4e73df; /* Blue */
+    }
+
+    .position-card {
+        border-left-color: #1cc88a; /* Green */
+    }
+
+    .equity-card {
+        border-left-color: #f6c23e; /* Yellow */
+    }
+
+    .cashflow-card {
+        border-left-color: #e74a3b; /* Red */
+    }
+
+    .section-card h3 {
+        color: #2d3748;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    .section-card h3 i {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+    .file-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .file-list li {
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    .file-list li:last-child {
+        border-bottom: none;
+    }
+
+    .file-info {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .file-icon {
+        margin-right: 15px;
+        color: #718096;
+        font-size: 1.2em;
+    }
+
+    .file-name {
+        font-weight: 500;
+        color: #2d3748;
+    }
+
+    .file-meta {
+        font-size: 0.85em;
+        color: #718096;
+        margin-top: 3px;
+    }
+
+    .file-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.85em;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-download {
+        background-color: #4e73df;
+        color: white;
+        border: none;
+    }
+
+    .btn-download:hover {
+        background-color: #3b56c7;
+        color: white;
+    }
+
+    .btn-view {
+        background-color: #f8f9fc;
+        color: #4e73df;
+        border: 1px solid #d1d5e0;
+    }
+
+    .btn-view:hover {
+        background-color: #edf2f7;
+        color: #3b56c7;
+    }
+
+    .no-files-message {
+        text-align: center;
+        padding: 20px;
+        color: #a0aec0;
+        font-style: italic;
+        background-color: #f8f9fc;
+        border-radius: 8px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .refresh-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="page-header">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-file-invoice-dollar text-primary mr-2"></i>Financial Statements
+        </h1>
+        <button class="btn btn-primary refresh-btn">
+            <i class="fas fa-sync-alt"></i>
+            <span>Refresh Data</span>
+        </button>
+    </div>
+
+    <!-- Statement of Incomes -->
+    <div class="section-card income-card">
+        <h3><i class="fas fa-chart-line text-primary"></i>Statement of Incomes</h3>
+        <ul class="file-list">
+            {% if incomes %}
+                {% for file in incomes %}
+                    <li>
+                        <div class="file-info">
+                            <div class="file-icon">
+                                <i class="fas fa-file-excel text-success"></i>
+                            </div>
+                            <div>
+                                <div class="file-name">{{ file.name }}</div>
+                                <div class="file-meta">Uploaded: {{ file.upload_date|date:"M d, Y" }} • {{ file.file.size|filesizeformat }}</div>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <a href="{% url 'view_excel' 'income' file.id %}" class="btn-action btn-view">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="{{ file.file.url }}" download class="btn-action btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <div class="no-files-message">No income statements available</div>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Statement of Financial Positions -->
+    <div class="section-card position-card">
+        <h3><i class="fas fa-balance-scale text-success"></i>Statement of Financial Positions</h3>
+        <ul class="file-list">
+            {% if positions %}
+                {% for file in positions %}
+                    <li>
+                        <div class="file-info">
+                            <div class="file-icon">
+                                <i class="fas fa-file-excel text-success"></i>
+                            </div>
+                            <div>
+                                <div class="file-name">{{ file.name }}</div>
+                                <div class="file-meta">Uploaded: {{ file.upload_date|date:"M d, Y" }} • {{ file.file.size|filesizeformat }}</div>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <a href="{% url 'view_excel' 'position' file.id %}" class="btn-action btn-view">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="{{ file.file.url }}" download class="btn-action btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <div class="no-files-message">No financial position statements available</div>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Statement of Changes in Equity -->
+    <div class="section-card equity-card">
+        <h3><i class="fas fa-chart-pie text-warning"></i>Statement of Changes in Equity</h3>
+        <ul class="file-list">
+            {% if equitys %}
+                {% for file in equitys %}
+                    <li>
+                        <div class="file-info">
+                            <div class="file-icon">
+                                <i class="fas fa-file-excel text-success"></i>
+                            </div>
+                            <div>
+                                <div class="file-name">{{ file.name }}</div>
+                                <div class="file-meta">Uploaded: {{ file.upload_date|date:"M d, Y" }} • {{ file.file.size|filesizeformat }}</div>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <a href="{% url 'view_excel' 'equity' file.id %}" class="btn-action btn-view">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="{{ file.file.url }}" download class="btn-action btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <div class="no-files-message">No equity statements available</div>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Statement of Cashflows -->
+    <div class="section-card cashflow-card">
+        <h3><i class="fas fa-money-bill-wave text-danger"></i>Statement of Cashflows</h3>
+        <ul class="file-list">
+            {% if cashflows %}
+                {% for file in cashflows %}
+                    <li>
+                        <div class="file-info">
+                            <div class="file-icon">
+                                <i class="fas fa-file-excel text-success"></i>
+                            </div>
+                            <div>
+                                <div class="file-name">{{ file.name }}</div>
+                                <div class="file-meta">Uploaded: {{ file.upload_date|date:"M d, Y" }} • {{ file.file.size|filesizeformat }}</div>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <a href="{% url 'view_excel' 'cashflow' file.id %}" class="btn-action btn-view">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="{{ file.file.url }}" download class="btn-action btn-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <div class="no-files-message">No cashflow statements available</div>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

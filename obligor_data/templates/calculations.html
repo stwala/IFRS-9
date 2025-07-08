@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Run Model</h2>
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="run_nr" class="form-label">Run Number:</label>
+                    {{ form.Run_Nr }}
+                </div>
+                <div class="mb-3">
+                    <label for="nb_run_nr" class="form-label">NB Run Number:</label>
+                    {{ form.NBRun_Nr }}
+                </div>
+                <div class="mb-3">
+                    <label for="prev_run_nr" class="form-label">Previous Run Number:</label>
+                    {{ form.PrevRun_Nr }}
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Run Models</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

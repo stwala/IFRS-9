@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Regression</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h2 {
+            color: #333333;
+        }
+        .image-container {
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .description {
+            color: #555555;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Logistic Regression</h2>
+
+        <!-- Static image provided by Django -->
+        <div class="image-container">
+            <img src="{% static 'logistic_regression_images/model.png' %}" alt="Logistic Regression Image">
+        </div>
+
+        <!-- Description of the Logistic Regression model -->
+        <div class="description">
+            <p>ROC score is 0.8447</p>
+        </div>
+    </div>
+</body>
+</html>
