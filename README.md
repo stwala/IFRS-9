@@ -65,7 +65,8 @@ Visit: http://127.0.0.1:8000/
 ## 📷 Screenshots
 
 ### 🔹 Dashboard
-![Dashboard](screenshots/dashboard2.png)
+![Dashboard](https://github.com/stwala/IFRS-9/blob/main/screenshots/dashboard.png?raw=true)
+
 
 ### 🔹     Home
 ![Home](screenshots/home1.png)
