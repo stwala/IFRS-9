@@ -62,16 +62,5 @@ python manage.py runserver
 5.Access the app
 Visit: http://127.0.0.1:8000/
 
-## 📷 Screenshots
-
-### 🔹 Dashboard
-![Dashboard](https://github.com/stwala/IFRS-9/blob/main/screenshots/dashboard.png?raw=true)
-
-
-### 🔹     Home
-![Home](screenshots/home1.png)
-
-### 🔹 Prediction Results
-![Prediction Results](screenshots/home2.png)
 
         
